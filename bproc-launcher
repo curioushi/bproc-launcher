@@ -1,0 +1,83 @@
+#!/usr/bin/python
+import os
+import os.path as osp
+import sys
+import subprocess
+import argparse
+from loguru import logger
+logger.remove()
+logger.add(sys.stderr, format="<green>{time:YYYY-MM-DD HH:mm:ss}</green>| <level>{message}</level>")
+from random import choice
+from typing import List, Union
+
+
+
+def run_bproc_docker(model_path, output_dir, config_path, textures_dir=None, gpu_id='0', interactive=False):
+    home = '/home/bproc'
+    image_name = 'bproc/deep-tote:latest'
+    model_name = os.path.basename(model_path)
+
+    args = ['docker', 'run', '-it', '--rm']
+    args += ['--gpus', f'\"device={gpu_id}\"']
+    args += ['--name', 'bproc_{}'.format(''.join([choice('0123456789abcdef') for _ in range(8)]))]
+    args += ['--volume=/dev/shm:/dev/shm:rw']
+
+    args += [f'--volume={model_path}:{home}/input/{model_name}:ro']
+    args += [f'--volume={config_path}:{home}/config.yaml:rw']
+    if textures_dir:
+        args += [f'--volume={textures_dir}:{home}/input/cc_textures:ro']
+    args += [f'--volume={output_dir}:{home}/output:rw']
+
+    args += [image_name]
+
+    if interactive:
+        args += ['/bin/bash']
+    else:
+        args += ['/bin/bash', '-c', './BlenderProc/run.sh config.yaml']
+
+    code = subprocess.Popen(args).wait()
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('model_path', type=str, help='Path to object model, supported format: obj, stl, ply')
+    parser.add_argument('output_dir', type=str, help='Output directory')
+    parser.add_argument('-c', '--config', type=str, default='path/to/config.yaml', help='YAML configuration file, used to configure the synthetic options.')
+    parser.add_argument('-t', '--textures_dir', type=str, default='path/to/cc_textures',
+                        help='CC0 textures directory. Set this value to enable material randomization.')
+    parser.add_argument('-g', '--gpu', type=str, default='0', help='GPU ID, e.g. 0 will use the first gpu. (default=0)')
+    parser.add_argument('-it', action='store_true', help='Enter into container with interactive mode.')
+    args = parser.parse_args()
+
+    args.model_path = osp.normpath(osp.abspath(args.model_path))
+    assert os.path.exists(args.model_path)
+
+    args.output_dir = osp.normpath(osp.abspath(args.output_dir))
+    os.makedirs(args.output_dir, exist_ok=True)
+
+    args.textures_dir = osp.normpath(osp.abspath(args.textures_dir))
+    if not os.path.exists(args.textures_dir):
+        logger.warning('testures_dir does not exist. Material randomization is disabled.')
+        args.textures_dir=None
+
+    if not os.path.exists(args.config):
+        logger.warning('config file not found, use the default configuration.')
+        args.config = osp.normpath(osp.join(osp.dirname(__file__), 'config.yaml'))
+        if not os.path.exists(args.config): # still not found
+            logger.error('default configuration file not found.')
+            sys.exit(-1)
+
+    return args
+
+if __name__ == '__main__':
+    args = parse_args()
+    for name, value in vars(args).items():
+        logger.info(f'{name} = {value}')
+    run_bproc_docker(
+            args.model_path,
+            args.output_dir,
+            args.config,
+            interactive=args.it,
+            textures_dir=args.textures_dir,
+            gpu_id=args.gpu)
+
+
