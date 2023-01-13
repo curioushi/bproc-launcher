@@ -1,2 +1,2 @@
-[ ] fix: OBJECT.FILE == mapped model file
-[ ] TUI
+[x] fix: OBJECT.FILE == mapped model file
+[ ] TUI tech demo
