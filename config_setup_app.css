@@ -1,34 +1,46 @@
-MyHeader {
+AppHeader {
+    dock: top;
+    text-style: bold;
     content-align: center middle;
-    height: 5;
-    text-style: bold
+    height: 3;
+    width: 100%;
+    background:  $surface-darken-1;
 }
 
-.option {
-    margin: 1;
-    min-width: 80;
+MyHorizontal {
+    height: 3;
 }
 
-Label {
-    margin: 1;
-    width: 30
+Button {
+    dock: right;
+    width: 15%;
+    height: 3;
 }
 
-Input {
-    height: 1;
-    min-width: 50
-}
-
-Checkbox {
-    min-width: 10
-}
-
-ListView {
-    margin: 1;
-    width: 30
+Button:hover {
+    background: green;
 }
 
 Tree {
-    width: 30;
-    background: $background-lighten-1;
+    width: 25%;
+    background: $surface-darken-1;
+    border: round $surface-lighten-2;
+}
+
+
+MyVertical {
+    background: $surface-darken-1;
+    width: 74.0%;
+    border: round $surface-lighten-2;
+}
+
+Label {
+    width: 23%;
+    height: 3;
+    content-align: right middle;
+    margin: 0 1 0 0;
+}
+
+Input {
+    width: 73%;
 }
