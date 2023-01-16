@@ -21,6 +21,16 @@ Submit:hover {
     background: green;
 }
 
+SaveAsDefault {
+    dock: left;
+    width: 15%;
+    height: 3;
+}
+
+SaveAsDefault:hover {
+    background: gold;
+}
+
 OptionsTree {
     width: 25%;
     background: $surface-darken-1;

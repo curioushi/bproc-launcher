@@ -68,8 +68,8 @@ def parse_args():
     parser.add_argument('-t', '--textures_dir', type=str, default='path/to/cc_textures',
                         help='CC0 textures directory. Set this value to enable material randomization.')
     parser.add_argument('-g', '--gpu', type=str, default='0', help='GPU ID, e.g. 0 will use the first gpu. (default=0)')
-    parser.add_argument('-it', action='store_true', help='Enter into container with interactive mode.')
-    parser.add_argument('-tui', action='store_true', help='Edit the YAML configuration with TUI.')
+    parser.add_argument('-it', '--it', action='store_true', help='Enter into container with interactive mode.')
+    parser.add_argument('-tui', '--tui', action='store_true', help='Edit the YAML configuration with TUI.')
     args = parser.parse_args()
 
     args.model_path = norm_abs_path(args.model_path)

@@ -1,6 +1,8 @@
+import os
+import os.path as osp
 from textual.app import App, ComposeResult
 from textual.containers import Container, Vertical, Horizontal
-from textual.widgets import Button,  Static, Label, Input, Tree, TreeNode
+from textual.widgets import Button, Static, Label, Input, Tree, TreeNode
 from textual import log
 import omegaconf
 from omegaconf import OmegaConf
@@ -30,6 +32,10 @@ class OptionsTree(Tree):
 
 
 class Submit(Button):
+    pass
+
+
+class SaveAsDefault(Button):
     pass
 
 
@@ -84,6 +90,10 @@ class ConfigSetupApp(App):
         button = event.button
         if button.id == "submit":
             self.exit(self.config)
+        elif button.id == "save_as_default":
+            default_config = osp.join(osp.abspath(osp.dirname(__file__)), "config.yaml")
+            with open(default_config, 'w') as f:
+                OmegaConf.save(config=self.config, f=f.name)
 
     def on_input_changed(self, event):
         input_widget = event.input
@@ -116,6 +126,7 @@ class ConfigSetupApp(App):
 
         yield Vertical(
             OptionLayout(AppHeader(),
+                         SaveAsDefault("SaveAsDefault", id='save_as_default'),
                          Submit("Submit", id='submit')),
             Horizontal(
                 tree, self.options_view
