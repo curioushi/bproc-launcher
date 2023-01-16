@@ -7,28 +7,28 @@ AppHeader {
     background:  $surface-darken-1;
 }
 
-MyHorizontal {
+OptionLayout {
     height: 3;
 }
 
-Button {
+Submit {
     dock: right;
     width: 15%;
     height: 3;
 }
 
-Button:hover {
+Submit:hover {
     background: green;
 }
 
-Tree {
+OptionsTree {
     width: 25%;
     background: $surface-darken-1;
     border: round $surface-lighten-2;
 }
 
 
-MyVertical {
+OptionsView {
     background: $surface-darken-1;
     width: 74.0%;
     border: round $surface-lighten-2;

@@ -7,6 +7,7 @@ import argparse
 from random import choice
 from loguru import logger
 from omegaconf import OmegaConf
+from config_setup_app import ConfigSetupApp
 
 
 logger.remove()
@@ -52,9 +53,9 @@ def setup_config(config_path, model_path, tui=False):
     cfg = OmegaConf.load(config_path)
     cfg.OBJECT.FILE = f'{HOME}/input/{osp.basename(model_path)}'
 
-    # if tui:
-    #     app = ConfigSetupApp()
-    #     app.run()
+    if tui:
+        app = ConfigSetupApp(config=cfg)
+        cfg = app.run()
 
     return cfg
 
