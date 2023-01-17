@@ -5,14 +5,14 @@ DEPTH_SCALE: 5.0e-05
 NUM_SCENES: 10
 NUM_CAMERAS_PER_SCENE: 5
 OBJECT:
-  FILE: /home/bproc/input/obj_000001.ply
+  FILE: /home/bproc/input/model.ply
   UNIT: auto
   DECIMATION: 15000
   MOVE_TO_MASS_CENTER: true
   SHADING_MODE: auto
   POSE_SAMPLER:
-    MIN_NUM: 10
-    MAX_NUM: 20
+    MIN_NUM: 20
+    MAX_NUM: 40
     MIN_HEIGHT: 1
     MAX_HEIGHT: 1.5
     PHYSICS:
@@ -38,16 +38,16 @@ TOTE:
   RANDOM_TEXTURE: true
 CAMERA:
   INTRINSICS:
-    FX: 512
-    FY: 512
-    PPX: 256
-    PPY: 256
-    WIDTH: 512
-    HEIGHT: 512
+    FX: 1800
+    FY: 1800
+    PPX: 512
+    PPY: 512
+    WIDTH: 1024
+    HEIGHT: 1024
     RANDOM_PERCENT: 5
   POSE_SAMPLER:
-    MIN_HEIGHT: 1.2
-    MAX_HEIGHT: 1.8
+    MIN_HEIGHT: 1.0
+    MAX_HEIGHT: 1.0
     MIN_ELEVATION: 75
     MAX_ELEVATION: 90
 LIGHT:

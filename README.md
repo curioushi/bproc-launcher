@@ -14,6 +14,9 @@
 ## Usage
 
 ```bash
+# recommended step: pull latest docker image first
+docker pull curioushi/bproc:latest
+
 python bproc-launcher.py -h
 # usage: bproc-launcher.py [-h] [-c CONFIG] [-t TEXTURES_DIR] [-g GPU] [-it] [-tui] model_path output_dir
 # 
@@ -34,13 +37,24 @@ python bproc-launcher.py -h
 # launch with default config
 python bproc-launcher.py <model_path> <output_dir>
 
-# launch with TUI
+# launch with TUI, then you can setup the configuration interactively
 python bproc-launcher.py <model_path> <output_dir> --tui
 
 # enable texture randomization
-python bproc-launcher.py <model_path> <output_dir> -t <texture_dir>
+python bproc-launcher.py <model_path> <output_dir> -t <texture_dir> -g 1
 
 # use gpu 1
 python bproc-launcher.py <model_path> <output_dir> -g 1
 
 ```
+
+## ScreenShots
+
+
+![](readme/000001.png)
+
+![](readme/000002.png)
+
+![](readme/000003.png)
+
+![](readme/000004.png)
