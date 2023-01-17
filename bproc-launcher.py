@@ -47,6 +47,11 @@ def run_bproc_docker(model_path, output_dir, cfg, textures_dir=None, gpu_id='0',
 
     code = subprocess.Popen(args).wait()
 
+def pull_docker_image():
+    logger.info(f'Pull latest docker image')
+    args = ['docker', 'pull', IMAGE_NAME]
+    code = subprocess.Popen(args).wait()
+
 def setup_config(config_path, model_path, tui=False):
     # modify the model file path
     cfg = OmegaConf.load(config_path)
@@ -99,6 +104,7 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     cfg = setup_config(args.config, args.model_path, tui=args.tui)
+    pull_docker_image()
     run_bproc_docker(
             args.model_path,
             args.output_dir,
